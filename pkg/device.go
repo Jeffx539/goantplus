@@ -15,6 +15,10 @@ type Device struct {
 	channels []*Channel
 }
 
+func (d Device) GetNextAvailableChannel() int {
+	return len(d.channels)
+}
+
 // CreateSerialDevice Initialises serial port with correct parameters
 func CreateSerialDevice(path string) (io.ReadWriteCloser, error) {
 

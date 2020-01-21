@@ -9,8 +9,8 @@ type HeartRate struct {
 	PageSpecific2  byte
 	HRLSB          byte
 	HRMSB          byte
-	heartBeatCount byte
-	heartRate      byte
+	HeartBeatCount byte
+	HeartRate      byte
 }
 
 func (h *HeartRate) UnMarshal(payload []byte) {
@@ -20,10 +20,10 @@ func (h *HeartRate) UnMarshal(payload []byte) {
 	h.PageSpecific2 = payload[5]
 	h.HRLSB = payload[6]
 	h.HRMSB = payload[7]
-	h.heartBeatCount = payload[8]
-	h.heartRate = payload[9]
+	h.HeartBeatCount = payload[8]
+	h.HeartRate = payload[9]
 }
 
 func (h HeartRate) String() string {
-	return fmt.Sprintf("[HRM] Heartrate %d ", h.heartRate)
+	return fmt.Sprintf("[HRM] Heartrate %d ", h.HeartRate)
 }
