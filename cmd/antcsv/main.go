@@ -4,18 +4,26 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/jeffx539/goantplus/constants"
+	"github.com/jeffx539/goantplus/pkg"
+	"github.com/jeffx539/goantplus/pkg/constants"
+	"github.com/jeffx539/goantplus/pkg/profiles"
 )
 
 func testCB(pl []byte) {
 	fmt.Println("Register CB")
 	fmt.Println(pl)
+
+	var hr profiles.HeartRate
+	hr.UnMarshal(pl)
+
+	fmt.Println(hr)
+
 }
 
 func main() {
 	fmt.Println("ANTPlus Dump")
 
-	dev := MakeDevice("/dev/ttyUSB0")
+	dev := pkg.MakeDevice("/dev/ttyUSB0")
 	if dev == nil {
 		panic("Unable to allocate device")
 	}

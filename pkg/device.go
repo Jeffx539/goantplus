@@ -1,11 +1,11 @@
-package main
+package pkg
 
 import (
 	"errors"
 	"io"
 
-	"github.com/jeffx539/goantplus/constants"
-	"github.com/jeffx539/goantplus/messages"
+	"github.com/jeffx539/goantplus/pkg/constants"
+	"github.com/jeffx539/goantplus/pkg/messages"
 
 	"github.com/jacobsa/go-serial/serial"
 )

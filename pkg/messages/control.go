@@ -1,6 +1,6 @@
 package messages
 
-import "github.com/jeffx539/goantplus/constants"
+import "github.com/jeffx539/goantplus/pkg/constants"
 
 // ControlSystemReset resets the antplus dongle
 func ControlSystemReset() Message {

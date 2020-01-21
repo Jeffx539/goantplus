@@ -3,7 +3,7 @@ package messages
 import (
 	"fmt"
 
-	"github.com/jeffx539/goantplus/constants"
+	"github.com/jeffx539/goantplus/pkg/constants"
 )
 
 // Message defined the returntype for the ant+ message, a simple slice of bytes

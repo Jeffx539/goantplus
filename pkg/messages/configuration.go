@@ -3,7 +3,7 @@ package messages
 import (
 	"encoding/binary"
 
-	"github.com/jeffx539/goantplus/constants"
+	"github.com/jeffx539/goantplus/pkg/constants"
 )
 
 // ConfigurationSetNetworkKey - Refer to
