@@ -25,5 +25,5 @@ func (h *HeartRate) UnMarshal(payload []byte) {
 }
 
 func (h HeartRate) String() string {
-	return fmt.Sprintf("[HRM] Heartrate %d %f", h.heartRate)
+	return fmt.Sprintf("[HRM] Heartrate %d ", h.heartRate)
 }
