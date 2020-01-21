@@ -6,7 +6,8 @@ import (
 	"log"
 
 	"github.com/jacobsa/go-serial/serial"
-	"github.com/jeffx539/goantplus/ant"
+	"github.com/jeffx539/goantplus/constants"
+	"github.com/jeffx539/goantplus/messages"
 )
 
 func parseMessage(port io.ReadWriteCloser) {
@@ -14,7 +15,7 @@ func parseMessage(port io.ReadWriteCloser) {
 	data := make([]byte, 1)
 	port.Read(data)
 
-	if data[0] != ant.AntMessageSync {
+	if data[0] != constants.AntMessageSync {
 		panic("Incorrect Sync")
 	}
 
@@ -24,7 +25,7 @@ func parseMessage(port io.ReadWriteCloser) {
 	data = make([]byte, length+2)
 	port.Read(data)
 
-	ant.DebugPrint(data)
+	messages.DebugPrint(data)
 
 }
 
@@ -45,28 +46,28 @@ func main() {
 	}
 
 	defer port.Close()
-	port.Write(ant.MessageSystemReset())
+	port.Write(messages.ControlSystemReset())
 	parseMessage(port)
 
 	// port.Write(ant.MessageRequest(0, ant.AntMessageParamCapability))
 	// parseMessage(port)
 
-	port.Write(ant.MessageSetNetworkKey(0, ([]byte)(ant.AntNetworkKey)))
+	port.Write(messages.ConfigurationSetNetworkKey(0, ([]byte)(constants.ANTNetworkKey)))
 	parseMessage(port)
 
-	port.Write(ant.MessageAssignChannel(0, 0x40))
+	port.Write(messages.ConfigurationAssignChannel(0, 0x40))
 	parseMessage(port)
 
-	port.Write(ant.MessageSetChannelID(0, 0, 0, 0, 0))
+	port.Write(messages.ConfigurationSetChannelID(0, 0, 0, 0, 0))
 	parseMessage(port)
 
-	port.Write(ant.MessageSetChannelRFFrequency(0, 0x39))
+	port.Write(messages.ConfigurationSetChannelRFFrequency(0, 0x39))
 	parseMessage(port)
 
-	port.Write(ant.MessageSetChannelPeriod(0, 8070))
+	port.Write(messages.ConfigurationSetChannelPeriod(0, 8070))
 	parseMessage(port)
 
-	port.Write(ant.MessageOpenChannel(0))
+	port.Write(messages.ControlOpenChannel(0))
 
 	// port.Write(ant.MessageOpenRXScanMode(0))
 
