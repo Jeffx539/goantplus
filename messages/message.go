@@ -37,11 +37,6 @@ func calculateCRC(payload Message) byte {
 
 func DebugPrint(payload []byte) {
 
-	if payload[0] == 0x4e {
-		fmt.Println("[HR] ", payload[9])
-		return
-	}
-
 	for _, elem := range payload {
 		fmt.Printf("[ %X ]", elem)
 	}
