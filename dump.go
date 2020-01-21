@@ -2,82 +2,39 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"log"
+	"time"
 
-	"github.com/jacobsa/go-serial/serial"
 	"github.com/jeffx539/goantplus/constants"
-	"github.com/jeffx539/goantplus/messages"
 )
 
-func parseMessage(port io.ReadWriteCloser) {
-
-	data := make([]byte, 1)
-	port.Read(data)
-
-	if data[0] != constants.AntMessageSync {
-		panic("Incorrect Sync")
-	}
-
-	port.Read(data)
-
-	length := data[0]
-	data = make([]byte, length+2)
-	port.Read(data)
-
-	messages.DebugPrint(data)
-
+func testCB(pl []byte) {
+	fmt.Println("Register CB")
+	fmt.Println(pl)
 }
 
 func main() {
-	fmt.Println("Hello World!")
+	fmt.Println("ANTPlus Dump")
 
-	options := serial.OpenOptions{
-		PortName:        "/dev/ttyUSB0",
-		BaudRate:        4800,
-		DataBits:        8,
-		StopBits:        1,
-		MinimumReadSize: 4,
+	dev := MakeDevice("/dev/ttyUSB0")
+	if dev == nil {
+		panic("Unable to allocate device")
 	}
 
-	port, err := serial.Open(options)
-	if err != nil {
-		log.Fatalf("serial.Open: %v", err)
-	}
+	fmt.Println("Initialised device.")
 
-	defer port.Close()
-	port.Write(messages.ControlSystemReset())
-	parseMessage(port)
+	dev.InitialiseDevice()
+	go dev.Loop()
 
-	// port.Write(ant.MessageRequest(0, ant.AntMessageParamCapability))
-	// parseMessage(port)
-
-	port.Write(messages.ConfigurationSetNetworkKey(0, ([]byte)(constants.ANTNetworkKey)))
-	parseMessage(port)
-
-	port.Write(messages.ConfigurationAssignChannel(0, 0x40))
-	parseMessage(port)
-
-	port.Write(messages.ConfigurationSetChannelID(0, 0, 0, 0, 0))
-	parseMessage(port)
-
-	port.Write(messages.ConfigurationSetChannelRFFrequency(0, 0x39))
-	parseMessage(port)
-
-	port.Write(messages.ConfigurationSetChannelPeriod(0, 8070))
-	parseMessage(port)
-
-	port.Write(messages.ControlOpenChannel(0))
-
-	// port.Write(ant.MessageOpenRXScanMode(0))
+	c := dev.IntialiseChannel(0x00)
+	c.SetNetworkKey(([]byte)(constants.ANTNetworkKey))
+	c.AssignChannel(0x40)
+	c.SetChannelPeriod(8070)
+	c.SetRFFrequency(0x39)
+	c.SetChannelID(0x00, 0x00, 0x00, 0x00)
+	c.RegisterCallback(testCB)
+	c.Open()
 
 	for {
-		parseMessage(port)
-
+		time.Sleep(1)
 	}
-
-	// alloc = make([]byte, 55)
-	// port.Read(alloc)
-	// ant.DebugPrint(alloc)
-
 }

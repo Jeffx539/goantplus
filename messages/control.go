@@ -12,7 +12,12 @@ func ControlRequest(channel byte, messageID byte) Message {
 	return BuildMessageType(constants.ControlMessageRequestMessage, []byte{channel, messageID})
 }
 
-// MessageOpenChannel assigns channel type
+// ControlOpenChannel assigns channel type
 func ControlOpenChannel(channel byte) Message {
 	return BuildMessageType(constants.ControlMessageOpenChannel, []byte{channel})
+}
+
+// ControlCloseChannel assigns channel type
+func ControlCloseChannel(channel byte) Message {
+	return BuildMessageType(constants.ControlMessageCloseChannel, []byte{channel})
 }
