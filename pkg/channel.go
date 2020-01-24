@@ -29,8 +29,8 @@ func (c Channel) AssignChannel(typ byte) {
 }
 
 // SetChannelID a
-func (c Channel) SetChannelID(deviceNo byte, deviceTyp1 byte, deviceTyp2 byte, transmissionTyp byte) {
-	c.stream.Write(messages.ConfigurationSetChannelID(c.ID, deviceNo, deviceTyp1, deviceTyp2, transmissionTyp))
+func (c Channel) SetChannelID(deviceNo uint16, deviceType byte, transmissionType byte) {
+	c.stream.Write(messages.ConfigurationSetChannelID(c.ID, deviceNo, deviceType, transmissionType))
 }
 
 // SetChannelPeriod Sets channel period

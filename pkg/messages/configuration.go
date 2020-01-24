@@ -22,8 +22,10 @@ func ConfigurationUnassignChannel(channel byte, typ byte) Message {
 }
 
 // ConfigurationSetChannelID sets channel ID
-func ConfigurationSetChannelID(channel byte, deviceNo byte, deviceTyp1 byte, deviceTyp2 byte, transmissionTyp byte) Message {
-	return BuildMessageType(constants.ConfigurationMessageSetChannelID, []byte{channel, deviceNo, deviceTyp1, deviceTyp2, transmissionTyp})
+func ConfigurationSetChannelID(channel byte, deviceNo uint16, deviceType byte, transmissionType byte) Message {
+	b := make([]byte, 2)
+	binary.LittleEndian.PutUint16(b, deviceNo)
+	return BuildMessageType(constants.ConfigurationMessageSetChannelID, []byte{channel, b[0], b[1], deviceType, transmissionType})
 }
 
 // ConfigurationSetChannelRFFrequency sets channel ID

@@ -72,7 +72,6 @@ func (d *Device) Loop() {
 
 	for {
 		payload, _ := parseMessage(d.stream)
-
 		if payload[0] == 78 {
 			d.channels[payload[1]].EmitEvent(payload)
 		}
